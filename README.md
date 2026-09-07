@@ -43,7 +43,7 @@ Open http://localhost:3000
 
 ## GitHub
 
-Repo: https://github.com/Nani212139/AI-Hiring-Assistant
+Repo: https://github.com/Nani2139/AI-Hiring-Assistant
 
 Remote `origin` is already set. You push yourself. From this folder:
 
@@ -60,7 +60,7 @@ git branch -M main
 git push -u origin main
 ```
 
-If GitHub asks you to sign in, use the **Nani212139** account that owns the repo.
+If GitHub asks you to sign in, use the **Nani2139** account that owns the repo.
 
 ## What not to commit
 
