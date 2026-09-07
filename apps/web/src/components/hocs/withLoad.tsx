@@ -8,8 +8,8 @@ type LoadProps<T> = {
   reload: () => void;
 };
 
-export function withLoad<T, P>(load: () => Promise<T>, View: ComponentType<P & LoadProps<T>>) {
-  return function Loaded(props: P) {
+export function withLoad<T>(load: () => Promise<T>, View: ComponentType<LoadProps<T>>) {
+  return function Loaded() {
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState("");
 
@@ -26,6 +26,6 @@ export function withLoad<T, P>(load: () => Promise<T>, View: ComponentType<P & L
 
     if (error) return <Text className="font-sans text-sm text-[var(--danger)]">{error}</Text>;
     if (!data) return <Text className="font-sans text-sm text-[var(--muted)]">Loading...</Text>;
-    return <View {...props} data={data} reload={reload} />;
+    return <View data={data} reload={reload} />;
   };
 }

@@ -5,7 +5,7 @@ import { Text } from "@/components/atoms/Text";
 
 type State = { error: string };
 
-export function withError<P>(View: ComponentType<P>) {
+export function withError<P extends object>(View: ComponentType<P>) {
   return class ErrorWrap extends Component<P, State> {
     state: State = { error: "" };
 
