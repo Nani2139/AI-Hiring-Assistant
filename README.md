@@ -59,15 +59,3 @@ git commit -m "Initial commit: guk.ai hiring portal"
 git branch -M main
 git push -u origin main
 ```
-
-If GitHub asks you to sign in, use the **Nani2139** account that owns the repo.
-
-## What not to commit
-
-`.env`, `.env.local`, `.venv`, `node_modules`, `.next`, and `*.db` are in `.gitignore`.
-
-## Deploy later
-
-- Web on Vercel from `apps/web`
-- API on Railway from `apps/api`
-- Set the same env names in the host dashboards
