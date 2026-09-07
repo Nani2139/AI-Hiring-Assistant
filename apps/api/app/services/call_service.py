@@ -30,11 +30,7 @@ def start_call(db: Session, job_id: int, person_id: int, phone: str) -> Call:
         agent_id=agent_id,
         callee_name=person.name,
         mobile_number=number,
-        custom_data={
-            "job_role": job.title,
-            "company": settings.company_name,
-            "location": person.location or "India",
-        },
+        custom_data=_custom_data(job.title, person, agent_id),
         request_id=request_id,
     )
     call = Call(
@@ -96,12 +92,48 @@ def clean_phone(raw: str) -> str:
     return "+91" + digits
 
 
+def _custom_data(job_title: str, person, agent_id: str) -> dict:
+    values = {
+        "candidate_name": person.name,
+        "callee_name": person.name,
+        "name": person.name,
+        "job_role": job_title,
+        "job_title": job_title,
+        "company": settings.company_name,
+        "location": person.location or "India",
+    }
+    data = {
+        "candidate_name": person.name,
+        "job_role": job_title,
+        "company": settings.company_name,
+        "location": person.location or "India",
+    }
+    agent = _agent_row(agent_id)
+    for field in ("custom_variables", "required_variables", "custom_data_keys"):
+        raw = (agent or {}).get(field) or []
+        if not isinstance(raw, list):
+            continue
+        for item in raw:
+            key = item if isinstance(item, str) else (item.get("key") or item.get("name") or "")
+            if key and key not in data:
+                data[key] = values.get(key) or person.name
+    return data
+
+
+def _agent_row(agent_id: str) -> dict:
+    rows = (hunar_client.list_agents().get("results") or [])
+    for row in rows:
+        if row.get("id") == agent_id:
+            return row
+    return rows[0] if rows else {}
+
+
 def _first_agent_id() -> str:
-    data = hunar_client.list_agents()
-    rows = data.get("results") or []
+    rows = hunar_client.list_agents().get("results") or []
     if not rows:
         raise ValueError("No Hunar agent found")
     for row in rows:
-        if "outreach" in (row.get("name") or "").lower() or "screen" in (row.get("name") or "").lower():
+        name = (row.get("name") or "").lower()
+        if "outreach" in name or "screen" in name:
             return row["id"]
     return rows[0]["id"]
