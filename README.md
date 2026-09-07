@@ -44,7 +44,8 @@ Open http://localhost:3000
 ## GitHub
 
 Repo: https://github.com/Nani2139/AI-Hiring-Assistant
-Deployed Link: https://ai-hiring-assistant-gray.vercel.app/jobs
+
+Deployed Link: https://ai-hiring-assistant-gray.vercel.app
 
 Remote `origin` is already set. You push yourself. From this folder:
 
